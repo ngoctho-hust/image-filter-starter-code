@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles, getAllLocalFiles} from './util/util';
 import fs from "fs";
@@ -16,20 +16,19 @@ import fs from "fs";
   
   // Root Endpoint
   // Displays a simple message to the user
-
-  app.get( "/", async ( req, res ) => {
-    res.send("OK")
+  app.get( "/", async ( req: Request, res: Response) => {
+    return res.status(200).send("OK")
   } );
   
-  app.get( "/filteredimage", async ( req, res ) => {
-    let image_url =  req.query.image_url;
+  app.get( "/filteredimage", async ( req: Request, res: Response ) => {
+    let image_url: string =  req.query.image_url;
     filterImageFromURL(image_url).then((result) => {
-      res.sendFile(result, err => {
-        let files = getAllLocalFiles();
+      return res.status(200).sendFile(result, err => {
+        let files: string[] = getAllLocalFiles();
         deleteLocalFiles(files);
       });
     }).catch((err) => {
-      res.status(400).send("Invalid image!");
+      return res.status(400).send("Invalid image!");
     })
   } );
   
