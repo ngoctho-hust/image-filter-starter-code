@@ -38,6 +38,6 @@ export async function deleteLocalFiles(files: Array<string>) {
   }
 }
 
-export function getAllLocalFiles() {
+export function getAllLocalFiles(): string[] {
   return fs.readdirSync(__dirname + '/tmp/').map(file => __dirname + '/tmp/' + file);
 }
